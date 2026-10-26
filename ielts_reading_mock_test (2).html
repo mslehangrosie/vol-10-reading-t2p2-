@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading Mock Test - Bristlecone Pines</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Nunito', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                        },
+                        highlight: '#c084fc'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            user-select: text;
+        }
+
+        /* 3D Button Styling (Blooket/Duolingo style) */
+        .btn-3d {
+            transition: all 0.1s ease;
+            box-shadow: 0px 4px 0px rgba(0,0,0,0.2);
+            position: relative;
+            top: 0px;
+        }
+        .btn-3d:hover {
+            transform: translateY(-2px);
+            box-shadow: 0px 6px 0px rgba(0,0,0,0.2);
+        }
+        .btn-3d:active {
+            transform: translateY(2px);
+            box-shadow: 0px 1px 0px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+            background-color: #2563eb;
+            color: white;
+            box-shadow: 0px 4px 0px #1d4ed8;
+        }
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+            box-shadow: 0px 6px 0px #1e40af;
+        }
+
+        .btn-success {
+            background-color: #16a34a;
+            color: white;
+            box-shadow: 0px 4px 0px #15803d;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Highlighted Text Styling */
+        ::selection {
+            background: #d8b4fe;
+            color: #4c1d95;
+        }
+        .user-highlight {
+            background-color: #c084fc !important;
+            color: #ffffff !important;
+            border-radius: 3px;
+            padding: 1px 3px;
+        }
+
+        /* Evidence Target Highlight Animation */
+        .evidence-target {
+            animation: highlightPulse 2s ease-in-out infinite;
+            background-color: #fef08a;
+            border-left: 4px solid #eab308;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        @keyframes highlightPulse {
+            0% { background-color: #fef08a; }
+            50% { background-color: #fde047; }
+            100% { background-color: #fef08a; }
+        }
+
+        /* Input field custom focus */
+        input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden bg-slate-50">
+
+    <!-- TOP BRANDING HEADER -->
+    <header class="bg-white border-b border-slate-200 px-4 py-2 flex flex-col sm:flex-row justify-between items-center z-20 shadow-sm">
+        <div class="flex items-center space-x-3">
+            <div class="bg-blue-600 text-white font-extrabold px-3 py-1 rounded-lg text-lg tracking-wider">
+                IELTS
+            </div>
+            <div>
+                <h1 class="text-base font-extrabold text-slate-800 leading-tight">Ms Lê Hằng English, IELTS READING MOCK TEST</h1>
+                <p class="text-xs text-blue-700 font-semibold flex items-center gap-1">
+                    <i class="fa-solid fa-graduation-cap"></i> Đăng kí học tiếng anh 1-12, IELTS vui lòng liên hệ Ms Lê Hằng, zalo: <span class="bg-yellow-200 px-1.5 py-0.5 rounded font-bold text-slate-900">0584 965 348</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- PROGRESS & TIMER BAR -->
+        <div class="flex items-center space-x-4 mt-2 sm:mt-0">
+            <!-- Progress Indicator -->
+            <div class="hidden md:flex flex-col items-end mr-2">
+                <span class="text-xs font-bold text-slate-500" id="progressText">Đã làm: 0/13 câu (0%)</span>
+                <div class="w-32 bg-slate-200 h-2 rounded-full overflow-hidden mt-1">
+                    <div id="progressBar" class="bg-blue-600 h-full w-0 transition-all duration-300"></div>
+                </div>
+            </div>
+
+            <!-- Timer Box -->
+            <div class="flex items-center bg-slate-100 border border-slate-300 rounded-xl px-3 py-1.5 space-x-2">
+                <i class="fa-regular fa-clock text-blue-600 text-lg"></i>
+                <span id="timerDisplay" class="font-mono text-lg font-black text-slate-800">20:00</span>
+                <button id="timerToggleBtn" onclick="toggleTimer()" class="text-xs bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-2 py-1 rounded transition">
+                    <i id="timerIcon" class="fa-solid fa-play"></i>
+                </button>
+            </div>
+
+            <!-- Submit Button -->
+            <button onclick="submitExam()" class="btn-3d btn-success px-5 py-2 rounded-xl font-extrabold text-sm flex items-center space-x-1">
+                <i class="fa-solid fa-paper-plane mr-1"></i> NỘP BÀI
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN SPLIT SCREEN CONTAINER -->
+    <main class="flex-1 flex flex-col md:flex-row overflow-hidden relative">
+        
+        <!-- LEFT PANEL: READING PASSAGE & GLOSSARY -->
+        <section class="w-full md:w-1/2 h-1/2 md:h-full overflow-y-auto border-r border-slate-300 p-4 lg:p-6 bg-white flex flex-col space-y-6" id="leftPanel">
+            
+            <div class="border-b border-slate-200 pb-3 flex justify-between items-center sticky top-0 bg-white pt-1 z-10">
+                <div>
+                    <span class="text-xs font-bold tracking-wider uppercase bg-blue-100 text-blue-800 px-2.5 py-1 rounded-md">READING PASSAGE</span>
+                    <h2 class="text-2xl font-black text-slate-800 mt-1">Bristlecone Pines</h2>
+                </div>
+                <div class="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded border">
+                    <i class="fa-solid fa-highlighter text-purple-600"></i> Bôi đen từ để highlight
+                </div>
+            </div>
+
+            <!-- PASSAGE PARAGRAPHS -->
+            <div class="space-y-6 text-slate-700 text-base leading-relaxed text-justify pr-1" id="passageContent">
+                
+                <!-- PARAGRAPH A -->
+                <div class="paragraph-block bg-slate-50/50 p-4 rounded-xl border border-slate-200/80" id="paraA">
+                    <p class="font-semibold text-slate-900 mb-2">
+                        <span class="bg-slate-800 text-white text-xs px-2 py-1 rounded-md mr-2 font-bold">Paragraph A</span>
+                    </p>
+                    <p>
+                        On the dry, windswept mountain tops of the Great Basin in the western United States, at altitudes of over 3,000 m, grow the bristlecone pines (Pinus longaeva, Pinus aristata). The bristlecone has adjusted to places on earth that no other tree wants to inhabit, and in these harsh environments has flourished. <span id="ev-18">Bristlecones don't grow very tall, 18.3 m at the most, but usually much less, while the girth of the largest one has been measured at 11.2 m. <strong class="text-blue-700 font-bold">What makes bristlecone pines truly remarkable is their longevity: their average age is over 1,000 years, with the oldest specimen - an individual known as Methuselah - dated at 4,723 years.</strong> This makes it not only the world's oldest living tree; it is also the earth's oldest living inhabitant.</span> The extreme age of bristlecone pines was not known about until the 1950s, and was only discovered then thanks to the efforts of Edmund Schulman. In 1932, Schulman had begun his career in dendrochronology as an assistant to A. E. Douglass of the Laboratory of Tree-ring Research at the University of Arizona.
+                    </p>
+                    
+                    <!-- Translation Toggle Button -->
+                    <div class="mt-3">
+                        <button onclick="toggleTranslation('transA')" class="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 border border-blue-200 px-3 py-1.5 rounded-lg transition flex items-center gap-1.5">
+                            <span>Mở dịch đoạn này 🌟</span>
+                        </button>
+                        <div id="transA" class="hidden mt-2 p-3 bg-amber-50/60 border border-amber-200 rounded-lg text-sm text-slate-700 italic leading-relaxed">
+                            <strong>Bản dịch Đoạn A:</strong> Trên những đỉnh núi khô hạn, lộng gió thuộc Đại Bồn Địa ở miền Tây Hoa Kỳ, ở độ cao trên 3.000m, những cây thông nón gai (bristlecone pines) sinh sống. Loài thông này đã thích nghi với những nơi trên Trái Đất mà không loài cây nào khác muốn sinh sống, và trong môi trường khắc nghiệt này chúng lại phát triển mạnh mẽ. Thông nón gai không phát triển quá cao, tối đa 18,3m, nhưng thường thấp hơn nhiều, trong khi chu vi của cây lớn nhất đo được là 11,2m. Điều làm cho thông nón gai thực sự đáng chú ý là tuổi thọ của chúng: tuổi đời trung bình của chúng là trên 1.000 năm, với mẫu vật lâu đời nhất - một cá thể được gọi là Methuselah - có tuổi đời 4.723 năm. Điều này biến nó không chỉ thành cây sống lâu đời nhất thế giới mà còn là sinh vật sống cổ xưa nhất trên Trái Đất. Tuổi thọ cực cao của thông nón gai không được biết đến cho mãi tới những năm 1950, và chỉ được phát hiện nhờ nỗ lực của Edmund Schulman. Năm 1932, Schulman bắt đầu sự nghiệp học thuật về vòng sinh trưởng của cây (dendrochronology) với tư cách là trợ lý cho A. E. Douglass tại Phòng thí nghiệm Nghiên cứu Vòng cây thuộc Đại học Arizona.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PARAGRAPH B -->
+                <div class="paragraph-block bg-slate-50/50 p-4 rounded-xl border border-slate-200/80" id="paraB">
+                    <p class="font-semibold text-slate-900 mb-2">
+                        <span class="bg-slate-800 text-white text-xs px-2 py-1 rounded-md mr-2 font-bold">Paragraph B</span>
+                    </p>
+                    <p>
+                        <span id="ev-14"><span id="ev-19">Douglass had noted that the <strong class="text-blue-700 font-bold">wide rings of certain species of trees were produced during wet years and, inversely, narrow rings during dry seasons.</strong></span> The more a tree's rate of growth has been affected by such environmental factors, the more variation in ring-to-ring growth will be present. This variation is referred to as sensitivity and the lack of ring variability is called complacency.</span> Patterns of ring variability are important for establishing chronologies, which allow precise dating of climatic conditions in the past. Samples taken from trees of unknown age can be studied for matches with samples from trees of a known age with known sequences of growth. Using this process, when the rings match or are found to have overlapping patterns, the chronology can be extended further back in time.
+                    </p>
+
+                    <!-- Translation Toggle Button -->
+                    <div class="mt-3">
+                        <button onclick="toggleTranslation('transB')" class="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 border border-blue-200 px-3 py-1.5 rounded-lg transition flex items-center gap-1.5">
+                            <span>Mở dịch đoạn này 🌟</span>
+                        </button>
+                        <div id="transB" class="hidden mt-2 p-3 bg-amber-50/60 border border-amber-200 rounded-lg text-sm text-slate-700 italic leading-relaxed">
+                            <strong>Bản dịch Đoạn B:</strong> Douglass đã lưu ý rằng các vòng cây rộng của một số loài cây nhất định được tạo ra trong những năm mưa nhiều và ngược lại, các vòng hẹp được tạo ra trong mùa khô. Tốc độ tăng trưởng của cây càng bị ảnh hưởng bởi các yếu tố môi trường như vậy thì sự biến đổi từ vòng này sang vòng khác càng hiện rõ. Sự biến đổi này được gọi là độ nhạy (sensitivity) và sự thiếu biến đổi của vòng cây được gọi là độ tự mãn (complacency). Mô hình biến đổi vòng cây rất quan trọng đối với việc thiết lập niên đại học, cho phép xác định chính xác điều kiện khí hậu trong quá khứ. Mẫu lấy từ những cây chưa biết tuổi có thể được nghiên cứu để tìm sự trùng khớp với các mẫu từ những cây đã biết tuổi với trình tự tăng trưởng đã biết. Sử dụng quy trình này, khi các vòng cây khớp nhau hoặc được phát hiện có mô hình chồng ghép lên nhau, niên đại học có thể được mở rộng xa hơn về quá khứ.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PARAGRAPH C -->
+                <div class="paragraph-block bg-slate-50/50 p-4 rounded-xl border border-slate-200/80" id="paraC">
+                    <p class="font-semibold text-slate-900 mb-2">
+                        <span class="bg-slate-800 text-white text-xs px-2 py-1 rounded-md mr-2 font-bold">Paragraph C</span>
+                    </p>
+                    <p>
+                        <span id="ev-16"><span id="ev-20">In his <strong class="text-blue-700 font-bold">search for older trees</strong> that would provide more extensive chronologies, Schulman learned that certain species of trees in the upper-forest zones, growing under stressful conditions, showed sensitive records of drought in their growth-ring sequences.</span> The short, distorted, and dwarfed trees of the upper tree lines were now his focus. <strong class="text-blue-700 font-bold">During 1954 and 1955, an extensive survey of bristlecone stands from California to Colorado was carried out by Schulman and his assistant, C. W. Ferguson.</strong> They found the oldest trees at elevations of 3,048 to 3,354 m, often in seemingly impossible locations, on dolomite soils where no other plant life could survive.</span> These trees showed large areas of deadwood and thin strips of living bark. The trees growing in the most extreme conditions, with scant soil and moisture, seemed to be the oldest. This prompted Schulman to write: 'The capacity of these trees to live so fantastically long may, when we come to understand it fully, perhaps serve as a guidepost on the road to the understanding of longevity in general.'
+                    </p>
+
+                    <!-- Translation Toggle Button -->
+                    <div class="mt-3">
+                        <button onclick="toggleTranslation('transC')" class="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 border border-blue-200 px-3 py-1.5 rounded-lg transition flex items-center gap-1.5">
+                            <span>Mở dịch đoạn này 🌟</span>
+                        </button>
+                        <div id="transC" class="hidden mt-2 p-3 bg-amber-50/60 border border-amber-200 rounded-lg text-sm text-slate-700 italic leading-relaxed">
+                            <strong>Bản dịch Đoạn C:</strong> Trong hành trình tìm kiếm những cây già hơn nhằm cung cấp dữ liệu niên đại học mở rộng hơn, Schulman biết rằng một số loài cây ở các vùng rừng phía trên, phát triển trong điều kiện khắc nghiệt, thể hiện các ghi chép nhạy bén về hạn hán trong chuỗi vòng tăng trưởng của chúng. Những cây ngắn, biến dạng và cằn cỗi ở đường ranh giới cây trồng phía trên hiện là trọng tâm của ông. Trong những năm 1954 và 1955, một cuộc khảo sát diện rộng về các quần thể thông nón gai từ California đến Colorado đã được thực hiện bởi Schulman và trợ lý của ông, C. W. Ferguson. Họ đã tìm thấy những cây cổ thụ nhất ở độ cao từ 3.048 đến 3.354 m, thường ở những vị trí tưởng chừng như không thể, trên đất đá vôi dolomite nơi không có sinh vật thực vật nào khác có thể tồn tại. Những cây này cho thấy những mảng gỗ chết lớn và những dải vỏ sống mỏng dảnh. Những cây sống trong điều kiện cực đoan nhất, với đất và độ ẩm ít ỏi, dường như là những cây già nhất. Điều này đã thúc đẩy Schulman viết: 'Khả năng sống lâu một cách kỳ diệu của những cây này, khi chúng ta hiểu đầy đủ về nó, có thể sẽ là cột mốc chỉ đường trên con đường hiểu về tuổi thọ nói chung.'
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PARAGRAPH D -->
+                <div class="paragraph-block bg-slate-50/50 p-4 rounded-xl border border-slate-200/80" id="paraD">
+                    <p class="font-semibold text-slate-900 mb-2">
+                        <span class="bg-slate-800 text-white text-xs px-2 py-1 rounded-md mr-2 font-bold">Paragraph D</span>
+                    </p>
+                    <p>
+                        So what factors do account for the longevity of bristlecone pines? Spring comes to the bristlecone pines in early May with the melting of snow and rising temperatures. In this subalpine zone there are only three warm summer months, often only six weeks, to produce growth and reserves for overwintering. All of this must be accomplished on a mere 25.4 cm of rainfall. To live so long under such conditions, the bristlecone has established several strategies. Firstly, bristlecone needles can live twenty to thirty years; thus, <span id="ev-21">adding new foliage to that already on the tree takes <strong class="text-blue-700 font-bold">little energy</strong>.</span> The long-lived needles provide a stable photosynthetic capacity to sustain the tree over years of severe stress. Another strategy for surviving is the gradual dieback of living bark when the tree is damaged because of fire, lightning, drought, or storms. This reduction of tissue that the crown of the tree has to supply with nutrients balances the effect of any damage sustained. The surviving parts remain quite healthy. As an example, Pine Alpha, at over 4,000 years old, is over a metre in diameter, <span id="ev-22">yet has only a 25 cm strip of <strong class="text-blue-700 font-bold">living bark</strong> to support it.</span> <span id="ev-23">Finally, invasions from bacteria, fungi, or insects that prey upon most plants are unknown to the bristlecones due to their highly <strong class="text-blue-700 font-bold">resinous</strong> wood.</span>
+                    </p>
+
+                    <!-- Translation Toggle Button -->
+                    <div class="mt-3">
+                        <button onclick="toggleTranslation('transD')" class="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 border border-blue-200 px-3 py-1.5 rounded-lg transition flex items-center gap-1.5">
+                            <span>Mở dịch đoạn này 🌟</span>
+                        </button>
+                        <div id="transD" class="hidden mt-2 p-3 bg-amber-50/60 border border-amber-200 rounded-lg text-sm text-slate-700 italic leading-relaxed">
+                            <strong>Bản dịch Đoạn D:</strong> Vậy yếu tố nào giải thích cho tuổi thọ của thông nón gai? Mùa xuân đến với thông nón gai vào đầu tháng 5 cùng với sự tan chảy của tuyết và nhiệt độ tăng lên. Ở vùng cận thung lũng này chỉ có ba tháng mùa hè ấm áp, thường chỉ kéo dài sáu tuần, để tạo ra sự tăng trưởng và tích lũy năng lượng cho mùa đông. Tất cả những điều này phải được hoàn thành chỉ với lượng mưa vỏn vẹn 25,4 cm. Để sống lâu như vậy trong điều kiện như thế, thông nón gai đã thiết lập một số chiến lược. Thứ nhất, lá kim của thông nón gai có thể sống từ 20 đến 30 năm; do đó, việc phát triển tán lá mới bổ sung vào lượng lá sẵn có tiêu tốn ít năng lượng. Những chiếc lá kim sống lâu cung cấp khả năng quang hợp ổn định để duy trì sự sống cho cây qua nhiều năm căng thẳng khắc nghiệt. Một chiến lược sinh tồn khác là sự chết dần của vỏ sống khi cây bị tổn thương do hỏa hoạn, sét đánh, hạn hán hoặc bão lũ. Sự giảm bớt mô mà tán cây phải cung cấp chất dinh dưỡng này giúp cân bằng tác động của bất kỳ thiệt hại nào chịu phải. Các phần còn sống sót vẫn khá khỏe mạnh. Ví dụ, cây Pine Alpha, hơn 4.000 năm tuổi, có đường kính hơn một mét, nhưng chỉ có một dải vỏ sống rộng 25 cm để nuôi dưỡng toàn bộ cây. Cuối cùng, sự xâm nhập từ vi khuẩn, nấm hoặc côn trùng săn mồi ở hầu hết các loài thực vật đều không xảy ra với thông nón gai do gỗ của chúng chứa rất nhiều nhựa (resinous).
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PARAGRAPH E -->
+                <div class="paragraph-block bg-slate-50/50 p-4 rounded-xl border border-slate-200/80" id="paraE">
+                    <p class="font-semibold text-slate-900 mb-2">
+                        <span class="bg-slate-800 text-white text-xs px-2 py-1 rounded-md mr-2 font-bold">Paragraph E</span>
+                    </p>
+                    <p>
+                        Environmental factors also play their part. <span id="ev-17"><span id="ev-24">The <strong class="text-blue-700 font-bold">dry air</strong> common in the subalpine region helps preserve the trees from rotting.</span></span> The oldest bristlecones live in the most exposed sites, with considerable space between each tree. The longevity of the bristlecone needles and the inability of other plants to grow in the dolomite soil preferred by the bristlecones make for little leaf litter. <span id="ev-25"><span id="ev-26">This <strong class="text-blue-700 font-bold">distance in between</strong> / <strong class="text-blue-700 font-bold">space</strong>, combined with the lack of <strong class="text-blue-700 font-bold">ground cover</strong>, ensures that if a tree sustains a lightning strike and catches fire, the fire does not spread to surrounding trees.</span></span> Thus, the bristlecone pines have survived for unknown centuries. <span id="ev-15">The current threat is from all the <strong class="text-blue-700 font-bold">people who come to visit them</strong>. As a result, Methuselah, the oldest tree, is not marked or identified with a plaque due to the threat of vandalism.</span> The recording of past events provided by these trees, along with their great beauty, is too valuable for us to lose.
+                    </p>
+
+                    <!-- Translation Toggle Button -->
+                    <div class="mt-3">
+                        <button onclick="toggleTranslation('transE')" class="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 border border-blue-200 px-3 py-1.5 rounded-lg transition flex items-center gap-1.5">
+                            <span>Mở dịch đoạn này 🌟</span>
+                        </button>
+                        <div id="transE" class="hidden mt-2 p-3 bg-amber-50/60 border border-amber-200 rounded-lg text-sm text-slate-700 italic leading-relaxed">
+                            <strong>Bản dịch Đoạn E:</strong> Các yếu tố môi trường cũng đóng vai trò quan trọng. Không khí khô phổ biến ở vùng cận núi cao giúp bảo vệ cây khỏi bị mục nát. Những cây thông nón gai cổ nhất sống ở những nơi trống trải nhất, với khoảng cách đáng kể giữa mỗi cây. Tuổi thọ cao của lá kim thông nón gai và việc các loài thực vật khác không thể phát triển trên đất đá vôi dolomite mà thông nón gai ưa thích làm cho thảm lá mục rất ít. Khoảng cách giữa các cây này, kết hợp với việc thiếu thảm thực vật phủ mặt đất, đảm bảo rằng nếu một cây bị sét đánh và bốc cháy, ngọn lửa sẽ không lan sang các cây xung quanh. Do đó, thông nón gai đã tồn tại qua hàng thế kỷ không xác định. Mối đe dọa hiện tại đến từ tất cả những người đến thăm chúng. Kết quả là Methuselah, cây cổ nhất, không được đánh dấu hoặc gắn biển tên vì nguy cơ bị phá hoại. Hồ sơ ghi chép các sự kiện trong quá khứ do những cây này cung cấp, cùng với vẻ đẹp tuyệt vời của chúng, là quá giá trị để chúng ta đánh mất.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ACADEMIC VOCABULARY GLOSSARY TABLE -->
+            <div class="mt-8 border-t border-slate-200 pt-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-black text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-book-bookmark text-blue-600"></i>
+                        Bảng Từ Vựng Học Thuật (Academic Glossary)
+                    </h3>
+                    <span class="text-xs bg-purple-100 text-purple-800 px-2.5 py-1 rounded-full font-bold">50+ Academic Words</span>
+                </div>
+
+                <div class="overflow-x-auto border border-slate-200 rounded-xl shadow-sm">
+                    <table class="w-full text-left text-sm text-slate-700">
+                        <thead class="bg-slate-100 text-slate-800 font-bold border-b border-slate-200">
+                            <tr>
+                                <th class="p-2.5">Từ vựng (Word)</th>
+                                <th class="p-2.5">Loại từ</th>
+                                <th class="p-2.5">Nghĩa tiếng Việt & Từ đồng nghĩa (Synonyms)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 bg-white" id="glossaryTableBody">
+                            <!-- Dynamically loaded vocabulary items -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- RIGHT PANEL: EXERCISES & QUESTIONS -->
+        <section class="w-full md:w-1/2 h-1/2 md:h-full overflow-y-auto p-4 lg:p-6 bg-slate-100 flex flex-col space-y-6" id="rightPanel">
+            
+            <div class="border-b border-slate-200 pb-3 bg-slate-100 sticky top-0 z-10">
+                <span class="text-xs font-bold tracking-wider uppercase bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-md">QUESTIONS 14–26</span>
+                <h2 class="text-xl font-extrabold text-slate-800 mt-1">Bài Tập Trắc Nghiệm & Điền Từ</h2>
+            </div>
+
+            <!-- QUESTION SECTION 1: MATCHING PARAGRAPHS (Q14-17) -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                <div class="border-b pb-2">
+                    <h3 class="font-extrabold text-base text-slate-800">Questions 14–17</h3>
+                    <p class="text-sm text-slate-600 mt-0.5">Reading Passage has five paragraphs, <strong>A–E</strong>.</p>
+                    <p class="text-xs text-slate-500 mt-1 italic">Which paragraph contains the following information? Choose the correct letter, A–E.</p>
+                    <p class="text-xs text-amber-700 bg-amber-50 px-2 py-1 rounded mt-1 border border-amber-200 font-semibold">
+                        NB You may use any letter more than once.
+                    </p>
+                </div>
+
+                <!-- Q14 -->
+                <div class="q-card p-3 bg-slate-50 rounded-xl border border-slate-200" id="card-q14">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <label class="text-sm font-bold text-slate-800 flex-1">
+                            <span class="inline-block bg-slate-200 text-slate-800 text-xs px-2 py-0.5 rounded font-black mr-1">14</span>
+                            an explanation of differences in ring patterns
+                        </label>
+                        <select onchange="registerAnswer('q14', this.value)" id="select-q14" class="q-input bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-sm font-bold text-slate-700 w-full sm:w-28 cursor-pointer">
+                            <option value="">Select...</option>
+                            <option value="A">Paragraph A</option>
+                            <option value="B">Paragraph B</option>
+                            <option value="C">Paragraph C</option>
+                            <option value="D">Paragraph D</option>
+                            <option value="E">Paragraph E</option>
+                        </select>
+                    </div>
+                    <div id="expl-q14" class="hidden mt-3 pt-3 border-t border-slate-200 text-xs space-y-1.5"></div>
+                </div>
+
+                <!-- Q15 -->
+                <div class="q-card p-3 bg-slate-50 rounded-xl border border-slate-200" id="card-q15">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <label class="text-sm font-bold text-slate-800 flex-1">
+                            <span class="inline-block bg-slate-200 text-slate-800 text-xs px-2 py-0.5 rounded font-black mr-1">15</span>
+                            mention of a human danger to bristlecone pines
+                        </label>
+                        <select onchange="registerAnswer('q15', this.value)" id="select-q15" class="q-input bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-sm font-bold text-slate-700 w-full sm:w-28 cursor-pointer">
+                            <option value="">Select...</option>
+                            <option value="A">Paragraph A</option>
+                            <option value="B">Paragraph B</option>
+                            <option value="C">Paragraph C</option>
+                            <option value="D">Paragraph D</option>
+                            <option value="E">Paragraph E</option>
+                        </select>
+                    </div>
+                    <div id="expl-q15" class="hidden mt-3 pt-3 border-t border-slate-200 text-xs space-y-1.5"></div>
+                </div>
+
+                <!-- Q16 -->
+                <div class="q-card p-3 bg-slate-50 rounded-xl border border-slate-200" id="card-q16">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <label class="text-sm font-bold text-slate-800 flex-1">
+                            <span class="inline-block bg-slate-200 text-slate-800 text-xs px-2 py-0.5 rounded font-black mr-1">16</span>
+                            an account of research conducted on bristlecone pines
+                        </label>
+                        <select onchange="registerAnswer('q16', this.value)" id="select-q16" class="q-input bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-sm font-bold text-slate-700 w-full sm:w-28 cursor-pointer">
+                            <option value="">Select...</option>
+                            <option value="A">Paragraph A</option>
+                            <option value="B">Paragraph B</option>
+                            <option value="C">Paragraph C</option>
+                            <option value="D">Paragraph D</option>
+                            <option value="E">Paragraph E</option>
+                        </select>
+                    </div>
+                    <div id="expl-q16" class="hidden mt-3 pt-3 border-t border-slate-200 text-xs space-y-1.5"></div>
+                </div>
+
+                <!-- Q17 -->
+                <div class="q-card p-3 bg-slate-50 rounded-xl border border-slate-200" id="card-q17">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <label class="text-sm font-bold text-slate-800 flex-1">
+                            <span class="inline-block bg-slate-200 text-slate-800 text-xs px-2 py-0.5 rounded font-black mr-1">17</span>
+                            an advantage of the bristlecone pines' habitat
+                        </label>
+                        <select onchange="registerAnswer('q17', this.value)" id="select-q17" class="q-input bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-sm font-bold text-slate-700 w-full sm:w-28 cursor-pointer">
+                            <option value="">Select...</option>
+                            <option value="A">Paragraph A</option>
+                            <option value="B">Paragraph B</option>
+                            <option value="C">Paragraph C</option>
+                            <option value="D">Paragraph D</option>
+                            <option value="E">Paragraph E</option>
+                        </select>
+                    </div>
+                    <div id="expl-q17" class="hidden mt-3 pt-3 border-t border-slate-200 text-xs space-y-1.5"></div>
+                </div>
+            </div>
+
+            <!-- QUESTION SECTION 2: MULTIPLE CHOICE (Q18-20) -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-5">
+                <div class="border-b pb-2">
+                    <h3 class="font-extrabold text-base text-slate-800">Questions 18–20</h3>
+                    <p class="text-sm text-slate-600">Choose the correct letter, <strong>A, B, C or D</strong>.</p>
+                </div>
+
+                <!-- Q18 CONTAINER -->
+                <div class="q-card p-3.5 bg-slate-50 rounded-xl border border-slate-200" id="card-q18">
+                    <p class="text-sm font-bold text-slate-800 mb-3">
+                        <span class="inline-block bg-slate-200 text-slate-800 text-xs px-2 py-0.5 rounded font-black mr-1">18</span>
+                        According to the writer, the most interesting fact about bristlecone pines is their
+                    </p>
+                    <div class="space-y-2" id="options-q18">
+                        <!-- Options generated dynamically by shuffle algorithm -->
+                    </div>
+                    <div id="expl-q18" class="hidden mt-3 pt-3 border-t border-slate-200 text-xs space-y-1.5"></div>
+                </div>
+
+                <!-- Q19 CONTAINER -->
+                <div class="q-card p-3.5 bg-slate-50 rounded-xl border border-slate-200" id="card-q19">
+                    <p class="text-sm font-bold text-slate-800 mb-3">
+                        <span class="inline-block bg-slate-200 text-slate-800 text-xs px-2 py-0.5 rounded font-black mr-1">19</span>
+                        A pattern of narrow rings is caused by
+                    </p>
+                    <div class="space-y-2" id="options-q19">
+                        <!-- Options generated dynamically by shuffle algorithm -->
+                    </div>
+                    <div id="expl-q19" class="hidden mt-3 pt-3 border-t border-slate-200 text-xs space-y-1.5"></div>
+                </div>
+
+                <!-- Q20 CONTAINER -->
+                <div class="q-card p-3.5 bg-slate-50 rounded-xl border border-slate-200" id="card-q20">
+                    <p class="text-sm font-bold text-slate-800 mb-3">
+                        <span class="inline-block bg-slate-200 text-slate-800 text-xs px-2 py-0.5 rounded font-black mr-1">20</span>
+                        Schulman chose to study trees growing at high levels because they were
+                    </p>
+                    <div class="space-y-2" id="options-q20">
+                        <!-- Options generated dynamically by shuffle algorithm -->
+                    </div>
+                    <div id="expl-q20" class="hidden mt-3 pt-3 border-t border-slate-200 text-xs space-y-1.5"></div>
+                </div>
+            </div>
+
+            <!-- QUESTION SECTION 3: FILL IN THE BLANKS (Q21-26) -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                <div class="border-b pb-2">
+                    <h3 class="font-extrabold text-base text-slate-800">Questions 21–26</h3>
+                    <p class="text-sm text-slate-600">Complete the notes below.</p>
+                    <p class="text-xs font-bold text-red-600 bg-red-50 px-2 py-1 rounded mt-1 border border-red-200 inline-block">
+                        Write NO MORE THAN TWO WORDS from the passage for each answer.
+                    </p>
+                </div>
+
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-4 text-sm text-slate-800 leading-relaxed">
+                    <h4 class="font-black text-slate-900 uppercase tracking-wide text-xs border-b pb-1">Factors in the survival of bristlecone pines</h4>
+                    
+                    <div class="space-y-3 pl-2">
+                        <p class="font-bold text-blue-800">a. Features of bristlecone pines</p>
+                        
+                        <!-- Q21 -->
+                        <div class="flex flex-wrap items-center gap-2 pl-3" id="card-q21">
+                            <span>• making new needles requires</span>
+                            <input type="text" oninput="registerAnswer('q21', this.value)" id="input-q21" placeholder="21..." class="q-input bg-white border border-slate-300 rounded-md px-2.5 py-1 text-sm font-bold text-blue-900 w-36 shadow-sm">
+                            <div id="expl-q21" class="hidden w-full mt-2 p-2 bg-white rounded border border-slate-200 text-xs space-y-1"></div>
+                        </div>
+
+                        <!-- Q22 -->
+                        <div class="flex flex-wrap items-center gap-2 pl-3" id="card-q22">
+                            <span>• trees damaged by weather or fire can exist with only small areas of</span>
+                            <input type="text" oninput="registerAnswer('q22', this.value)" id="input-q22" placeholder="22..." class="q-input bg-white border border-slate-300 rounded-md px-2.5 py-1 text-sm font-bold text-blue-900 w-36 shadow-sm">
+                            <div id="expl-q22" class="hidden w-full mt-2 p-2 bg-white rounded border border-slate-200 text-xs space-y-1"></div>
+                        </div>
+
+                        <!-- Q23 -->
+                        <div class="flex flex-wrap items-center gap-2 pl-3" id="card-q23">
+                            <span>• bristlecone wood is very</span>
+                            <input type="text" oninput="registerAnswer('q23', this.value)" id="input-q23" placeholder="23..." class="q-input bg-white border border-slate-300 rounded-md px-2.5 py-1 text-sm font-bold text-blue-900 w-36 shadow-sm">
+                            <div id="expl-q23" class="hidden w-full mt-2 p-2 bg-white rounded border border-slate-200 text-xs space-y-1"></div>
+                        </div>
+
+                        <p class="font-bold text-blue-800 mt-4">b. Features of the environment</p>
+
+                        <!-- Q24 -->
+                        <div class="flex flex-wrap items-center gap-2 pl-3" id="card-q24">
+                            <span>• trees don't decay because of the</span>
+                            <input type="text" oninput="registerAnswer('q24', this.value)" id="input-q24" placeholder="24..." class="q-input bg-white border border-slate-300 rounded-md px-2.5 py-1 text-sm font-bold text-blue-900 w-36 shadow-sm">
+                            <div id="expl-q24" class="hidden w-full mt-2 p-2 bg-white rounded border border-slate-200 text-xs space-y-1"></div>
+                        </div>
+
+                        <!-- Q25 & Q26 -->
+                        <div class="flex flex-wrap items-center gap-2 pl-3" id="card-q25">
+                            <span>• fires don't spread easily because of the</span>
+                            <input type="text" oninput="registerAnswer('q25', this.value)" id="input-q25" placeholder="25..." class="q-input bg-white border border-slate-300 rounded-md px-2.5 py-1 text-sm font-bold text-blue-900 w-36 shadow-sm">
+                            <span>between trees and absence of</span>
+                            <input type="text" oninput="registerAnswer('q26', this.value)" id="input-q26" placeholder="26..." class="q-input bg-white border border-slate-300 rounded-md px-2.5 py-1 text-sm font-bold text-blue-900 w-36 shadow-sm">
+                            <div id="expl-q25" class="hidden w-full mt-2 p-2 bg-white rounded border border-slate-200 text-xs space-y-1"></div>
+                            <div id="expl-q26" class="hidden w-full mt-2 p-2 bg-white rounded border border-slate-200 text-xs space-y-1"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOTTOM SUBMIT ACTION CARD -->
+            <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 rounded-2xl text-white shadow-lg flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div>
+                    <h4 class="text-lg font-black">Hoàn thành bài thi?</h4>
+                    <p class="text-xs text-blue-100">Kiểm tra kỹ các câu trả lời trước khi nhấn nộp bài để xem giải thích chi tiết!</p>
+                </div>
+                <button onclick="submitExam()" class="btn-3d btn-success px-6 py-3 rounded-xl font-black text-base tracking-wide whitespace-nowrap">
+                    NỘP BÀI VÀ XEM ĐIỂM 🏆
+                </button>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- SCORE RESULT MODAL -->
+    <div id="resultModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative border-4 border-blue-500 animate-bounce-in">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl font-bold w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
+                &times;
+            </button>
+
+            <div class="text-center space-y-4">
+                <div class="inline-block bg-yellow-100 text-yellow-700 p-4 rounded-full text-4xl mb-1">
+                    🏆
+                </div>
+                <h2 class="text-2xl font-black text-slate-800">KẾT QUẢ BÀI THI IELTS READING</h2>
+                <p class="text-xs text-slate-500">Giáo viên: <strong class="text-slate-800">Ms Lê Hằng English (0584 965 348)</strong></p>
+
+                <!-- SCORE STATS BOX -->
+                <div class="grid grid-cols-2 gap-4 py-3">
+                    <div class="bg-blue-50 p-4 rounded-2xl border border-blue-200">
+                        <span class="text-xs font-bold text-blue-600 uppercase tracking-wider block">Số câu đúng</span>
+                        <span class="text-3xl font-black text-blue-900" id="rawScoreDisplay">0/13</span>
+                    </div>
+                    <div class="bg-amber-50 p-4 rounded-2xl border border-amber-200">
+                        <span class="text-xs font-bold text-amber-600 uppercase tracking-wider block">BAND SCORE DỰ KIẾN</span>
+                        <span class="text-3xl font-black text-amber-700" id="bandScoreDisplay">0.0</span>
+                    </div>
+                </div>
+
+                <!-- EVALUATION COMMENT -->
+                <div class="p-4 rounded-2xl text-sm font-semibold leading-relaxed" id="evalCommentBox">
+                    <!-- Comment content dynamically populated -->
+                </div>
+
+                <div class="pt-2 flex gap-3">
+                    <button onclick="closeModal()" class="flex-1 btn-3d btn-primary py-3 rounded-xl font-extrabold text-sm">
+                        XEM CHÍ TIẾT GIẢI THÍCH 📖
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT LOGIC -->
+    <script>
+        // --- 1. GLOBAL STATE & DATA ---
+        let timerInterval = null;
+        let timeRemaining = 20 * 60; // 20 minutes in seconds
+        let isTimerRunning = false;
+        let userAnswers = {};
+        let isSubmitted = false;
+
+        // Correct Answers & Explanations Dictionary
+        const answerKey = {
+            q14: {
+                correct: "B",
+                passageEvId: "ev-14",
+                quote: "Douglass had noted that the wide rings of certain species of trees were produced during wet years and, inversely, narrow rings during dry seasons.",
+                transQuote: "Douglass đã lưu ý rằng các vòng cây rộng ở một số loài cây được tạo ra trong những năm mưa nhiều và ngược lại, các vòng hẹp được tạo ra trong mùa khô.",
+                synonyms: "differences in ring patterns ↔ wide rings / narrow rings"
+            },
+            q15: {
+                correct: "E",
+                passageEvId: "ev-15",
+                quote: "The current threat is from all the people who come to visit them. As a result, Methuselah, the oldest tree, is not marked or identified with a plaque due to the threat of vandalism.",
+                transQuote: "Mối đe dọa hiện tại đến từ tất cả những người đến thăm chúng. Kết quả là Methuselah, cây cổ nhất, không được đánh dấu hoặc gắn biển tên vì nguy cơ bị phá hoại.",
+                synonyms: "human danger ↔ people who come to visit / threat of vandalism"
+            },
+            q16: {
+                correct: "C",
+                passageEvId: "ev-16",
+                quote: "During 1954 and 1955, an extensive survey of bristlecone stands from California to Colorado was carried out by Schulman and his assistant, C. W. Ferguson.",
+                transQuote: "Trong những năm 1954 và 1955, một cuộc khảo sát diện rộng về các quần thể thông nón gai từ California đến Colorado đã được thực hiện bởi Schulman và trợ lý của ông.",
+                synonyms: "account of research ↔ extensive survey carried out by Schulman and his assistant"
+            },
+            q17: {
+                correct: "E",
+                passageEvId: "ev-17",
+                quote: "The dry air common in the subalpine region helps preserve the trees from rotting.",
+                transQuote: "Không khí khô phổ biến ở vùng cận núi cao giúp bảo vệ cây khỏi bị mục nát.",
+                synonyms: "advantage of habitat ↔ dry air helps preserve trees from rotting"
+            },
+            q18: {
+                correct: "D",
+                passageEvId: "ev-18",
+                quote: "What makes bristlecone pines truly remarkable is their longevity: their average age is over 1,000 years, with the oldest specimen dated at 4,723 years.",
+                transQuote: "Điều làm cho thông nón gai thực sự đáng chú ý là tuổi thọ của chúng: tuổi đời trung bình của chúng là trên 1.000 năm, với mẫu vật lâu đời nhất có tuổi đời 4.723 năm.",
+                synonyms: "most interesting fact / remarkable ↔ longevity / age"
+            },
+            q19: {
+                correct: "B",
+                passageEvId: "ev-19",
+                quote: "...and, inversely, narrow rings during dry seasons.",
+                transQuote: "...và ngược lại, các vòng hẹp được tạo ra trong các mùa khô.",
+                synonyms: "narrow rings ↔ dry seasons / lack of rain"
+            },
+            q20: {
+                correct: "C",
+                passageEvId: "ev-20",
+                quote: "In his search for older trees that would provide more extensive chronologies, Schulman learned that certain species of trees in the upper-forest zones...",
+                transQuote: "Trong hành trình tìm kiếm những cây già hơn để cung cấp dữ liệu niên đại học mở rộng hơn, Schulman biết rằng một số loài cây ở các vùng rừng phía trên...",
+                synonyms: "search for older trees ↔ much older than other trees"
+            },
+            q21: {
+                correct: ["little energy"],
+                passageEvId: "ev-21",
+                quote: "...thus, adding new foliage to that already on the tree takes little energy.",
+                transQuote: "...do đó, việc phát triển tán lá mới bổ sung vào lượng lá sẵn có tiêu tốn ít năng lượng.",
+                synonyms: "requires ↔ takes"
+            },
+            q22: {
+                correct: ["living bark"],
+                passageEvId: "ev-22",
+                quote: "...yet has only a 25 cm strip of living bark to support it.",
+                transQuote: "...nhưng chỉ có một dải vỏ sống rộng 25 cm để nuôi dưỡng toàn bộ cây.",
+                synonyms: "small areas of ↔ 25 cm strip of"
+            },
+            q23: {
+                correct: ["resinous"],
+                passageEvId: "ev-23",
+                quote: "...due to their highly resinous wood.",
+                transQuote: "...do gỗ của chúng chứa rất nhiều nhựa (resinous).",
+                synonyms: "very ↔ highly"
+            },
+            q24: {
+                correct: ["dry air"],
+                passageEvId: "ev-24",
+                quote: "The dry air common in the subalpine region helps preserve the trees from rotting.",
+                transQuote: "Không khí khô phổ biến ở vùng cận núi cao giúp bảo vệ cây khỏi bị mục nát.",
+                synonyms: "don't decay ↔ preserve from rotting"
+            },
+            q25: {
+                correct: ["space", "distance", "distance in between"],
+                passageEvId: "ev-25",
+                quote: "This distance in between, combined with the lack of ground cover...",
+                transQuote: "Khoảng cách giữa các cây này, kết hợp với việc thiếu thảm thực vật phủ mặt đất...",
+                synonyms: "between trees ↔ distance in between"
+            },
+            q26: {
+                correct: ["ground cover"],
+                passageEvId: "ev-26",
+                quote: "...combined with the lack of ground cover, ensures that if a tree sustains a lightning strike...",
+                transQuote: "...kết hợp với việc thiếu thảm thực vật phủ mặt đất...",
+                synonyms: "absence of ↔ lack of"
+            }
+        };
+
+        // Raw MCQ Data before shuffling
+        const rawMCQData = [
+            {
+                id: "q18",
+                question: "According to the writer, the most interesting fact about bristlecone pines is their",
+                options: [
+                    { letter: "A", text: "habitat." },
+                    { letter: "B", text: "height." },
+                    { letter: "C", text: "width." },
+                    { letter: "D", text: "age." }
+                ]
+            },
+            {
+                id: "q19",
+                question: "A pattern of narrow rings is caused by",
+                options: [
+                    { letter: "A", text: "alternating rainy and dry seasons." },
+                    { letter: "B", text: "a lack of rain." },
+                    { letter: "C", text: "restricted growth in some trees." },
+                    { letter: "D", text: "high altitude." }
+                ]
+            },
+            {
+                id: "q20",
+                question: "Schulman chose to study trees growing at high levels because they were",
+                options: [
+                    { letter: "A", text: "shorter than similar trees." },
+                    { letter: "B", text: "growing in unusual shapes." },
+                    { letter: "C", text: "much older than other trees." },
+                    { letter: "D", text: "the only surviving plants." }
+                ]
+            }
+        ];
+
+        // Academic Glossary Items (>50 Words)
+        const glossaryData = [
+            { word: "Windswept", pos: "adj", meaning: "Lộng gió, trống trải bị gió thổi mạnh." },
+            { word: "Altitude", pos: "n", meaning: "Độ cao so với mặt nước biển." },
+            { word: "Bristlecone", pos: "n", meaning: "Loài thông nón gai cổ thụ." },
+            { word: "Inhabit", pos: "v", meaning: "Cư trú, sinh sống (~ reside, dwell)." },
+            { word: "Flourish", pos: "v", meaning: "Phát triển mạnh mẽ, hưng thịnh (~ thrive)." },
+            { word: "Girth", pos: "n", meaning: "Chu vi thân cây, vòng đo thân." },
+            { word: "Longevity", pos: "n", meaning: "Tuổi thọ kéo dài (~ lifespan)." },
+            { word: "Specimen", pos: "n", meaning: "Mẫu vật, cá thể dùng nghiên cứu." },
+            { word: "Dendrochronology", pos: "n", meaning: "Niên đại học dựa trên vòng sinh trưởng của cây." },
+            { word: "Inversely", pos: "adv", meaning: "Trái lại, ngược lại (~ conversely)." },
+            { word: "Variation", pos: "n", meaning: "Sự biến đổi, sự khác biệt (~ fluctuation)." },
+            { word: "Sensitivity", pos: "n", meaning: "Độ nhạy (với biến đổi khí hậu trong vòng cây)." },
+            { word: "Complacency", pos: "n", meaning: "Sự tự mãn (ở vòng cây: không biến đổi nhiều)." },
+            { word: "Chronology", pos: "n", meaning: "Niên đại học, sự sắp xếp theo thứ tự thời gian." },
+            { word: "Sequence", pos: "n", meaning: "Chuỗi, trình tự nối tiếp (~ order, series)." },
+            { word: "Overlapping", pos: "adj/v", meaning: "Chồng gối lên nhau, trùng lặp." },
+            { word: "Extensive", pos: "adj", meaning: "Rộng lớn, diện rộng (~ widespread)." },
+            { word: "Upper-forest zone", pos: "n", meaning: "Vùng rừng núi cao phía trên." },
+            { word: "Distorted", pos: "adj", meaning: "Bị biến dạng, méo mó (~ deformed)." },
+            { word: "Dwarfed", pos: "adj", meaning: "Cằn cỗi, bị làm nhỏ bé lại." },
+            { word: "Stand", pos: "n", meaning: "Quần thể cây, rặng cây tập trung." },
+            { word: "Elevation", pos: "n", meaning: "Độ cao so với mực nước biển (~ altitude)." },
+            { word: "Dolomite", pos: "n", meaning: "Đá vôi chứa magiê, đất dolomite." },
+            { word: "Deadwood", pos: "n", meaning: "Phần gỗ chết trên cây." },
+            { word: "Scant", pos: "adj", meaning: "Ít ỏi, hiếm hoi (~ meager, sparse)." },
+            { word: "Prompt", pos: "v", meaning: "Thúc đẩy, xúi giục (~ motivate, encourage)." },
+            { word: "Guidepost", pos: "n", meaning: "Cột mốc chỉ đường, định hướng." },
+            { word: "Subalpine", pos: "adj", meaning: "Vùng cận núi cao." },
+            { word: "Overwintering", pos: "n/v", meaning: "Việc trú đông, sống qua mùa đông." },
+            { word: "Foliage", pos: "n", meaning: "Tán lá, bộ lá của cây (~ leaves)." },
+            { word: "Sustain", pos: "v", meaning: "Duy trì, chống đỡ (~ maintain, support)." },
+            { word: "Dieback", pos: "n", meaning: "Hiện tượng chết dần các bộ phận bên ngoài." },
+            { word: "Nutrient", pos: "n", meaning: "Chất dinh dưỡng." },
+            { word: "Invasion", pos: "n", meaning: "Sự xâm nhập, sự tấn công (~ attack, intrusion)." },
+            { word: "Fungi", pos: "n (plural)", meaning: "Nấm (dạng số nhiều của fungus)." },
+            { word: "Resinous", pos: "adj", meaning: "Chứa nhiều nhựa cây (resin)." },
+            { word: "Rotting", pos: "n/adj", meaning: "Sự mục nát, thối rữa (~ decaying)." },
+            { word: "Exposed", pos: "adj", meaning: "Trống trải, không có che chắn." },
+            { word: "Leaf litter", pos: "n", meaning: "Thảm lá mục, lá rụng trên mặt đất." },
+            { word: "Ground cover", pos: "n", meaning: "Thảm thực vật phủ mặt đất." },
+            { word: "Plaque", pos: "n", meaning: "Biển tên, tấm bảng kim loại/đá ghi danh." },
+            { word: "Vandalism", pos: "n", meaning: "Hành vi cố ý phá hoại công trình/thiên nhiên." },
+            { word: "Preserve", pos: "v", meaning: "Bảo tồn, giữ gìn (~ protect, save)." },
+            { word: "Photosynthetic", pos: "adj", meaning: "Thuộc quang hợp." },
+            { word: "Remarkable", pos: "adj", meaning: "Đáng chú ý, phi thường (~ extraordinary)." },
+            { word: "Inversely", pos: "adv", meaning: "Theo chiều ngược lại." },
+            { word: "Harsh", pos: "adj", meaning: "Khắc nghiệt (~ severe, tough)." },
+            { word: "Capacity", pos: "n", meaning: "Khả năng, năng lực (~ ability)." },
+            { word: "Sustain", pos: "v", meaning: "Chịu đựng, duy trì." },
+            { word: "Establishes", pos: "v", meaning: "Thiết lập, tạo nên (~ setup)." }
+        ];
+
+        // --- 2. INITIALIZATION & UTILITIES ---
+
+        // Web Audio API Sound Synthesizer
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'correct') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                osc.frequency.exponentialRampToValueAtTime(659.25, audioCtx.currentTime + 0.15); // E5
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(180, audioCtx.currentTime);
+                osc.frequency.setValueAtTime(130, audioCtx.currentTime + 0.15);
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.4);
+            }
+        }
+
+        // Shuffle Array Algorithm (Fisher-Yates)
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        // Render Shuffled MCQ Options on Load
+        function renderShuffledMCQs() {
+            rawMCQData.forEach(q => {
+                const container = document.getElementById(`options-${q.id}`);
+                if (!container) return;
+                
+                const shuffledOpts = shuffleArray(q.options);
+                container.innerHTML = shuffledOpts.map(opt => `
+                    <button type="button" 
+                            onclick="selectMCQOption('${q.id}', '${opt.letter}', this)" 
+                            data-option="${opt.letter}"
+                            class="mcq-btn-${q.id} w-full text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 font-semibold text-sm transition flex items-center justify-between">
+                        <span><strong class="text-blue-700 mr-1.5">${opt.letter}.</strong> ${opt.text}</span>
+                        <i class="fa-regular fa-circle text-slate-300 status-icon"></i>
+                    </button>
+                `).join('');
+            });
+        }
+
+        // Render Glossary Table
+        function renderGlossary() {
+            const tbody = document.getElementById('glossaryTableBody');
+            tbody.innerHTML = glossaryData.map(item => `
+                <tr class="hover:bg-blue-50/50 transition">
+                    <td class="p-2.5 font-bold text-blue-900">${item.word}</td>
+                    <td class="p-2.5 italic text-slate-500">${item.pos}</td>
+                    <td class="p-2.5">${item.meaning}</td>
+                </tr>
+            `).join('');
+        }
+
+        // --- 3. INTERACTIVE ACTIONS ---
+
+        // Timer Logic
+        function startTimer() {
+            if (isTimerRunning) return;
+            isTimerRunning = true;
+            document.getElementById('timerIcon').className = 'fa-solid fa-pause';
+            
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    isTimerRunning = false;
+                    alert("⏰ Đã hết giờ làm bài, vui lòng nộp bài nhé!");
+                    submitExam();
+                }
+            }, 1000);
+        }
+
+        function toggleTimer() {
+            if (isTimerRunning) {
+                clearInterval(timerInterval);
+                isTimerRunning = false;
+                document.getElementById('timerIcon').className = 'fa-solid fa-play';
+            } else {
+                startTimer();
+            }
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timeRemaining / 60);
+            const secs = timeRemaining % 60;
+            document.getElementById('timerDisplay').textContent = 
+                `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Toggle Paragraph Translation
+        function toggleTranslation(id) {
+            const el = document.getElementById(id);
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+            } else {
+                el.classList.add('hidden');
+            }
+        }
+
+        // User Input Registration & Progress Tracking
+        function registerAnswer(qId, value) {
+            if (isSubmitted) return;
+            
+            // Auto start timer on first answer click/input
+            if (!isTimerRunning && timeRemaining > 0) {
+                startTimer();
+            }
+
+            if (typeof value === 'string') {
+                value = value.trim();
+            }
+
+            if (value) {
+                userAnswers[qId] = value;
+            } else {
+                delete userAnswers[qId];
+            }
+
+            updateProgress();
+        }
+
+        // MCQ Selection Logic with Feedback Visuals
+        function selectMCQOption(qId, selectedLetter, btnEl) {
+            if (isSubmitted) return;
+
+            // Deselect other buttons for this question
+            const buttons = document.querySelectorAll(`.mcq-btn-${qId}`);
+            buttons.forEach(btn => {
+                btn.className = `mcq-btn-${qId} w-full text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 font-semibold text-sm transition flex items-center justify-between`;
+                const icon = btn.querySelector('.status-icon');
+                if (icon) icon.className = 'fa-regular fa-circle text-slate-300 status-icon';
+            });
+
+            // Select clicked button
+            btnEl.className = `mcq-btn-${qId} w-full text-left p-3 rounded-xl border-2 border-blue-600 bg-blue-50/80 font-bold text-sm transition flex items-center justify-between`;
+            const icon = btnEl.querySelector('.status-icon');
+            if (icon) icon.className = 'fa-solid fa-circle-dot text-blue-600 status-icon';
+
+            registerAnswer(qId, selectedLetter);
+        }
+
+        function updateProgress() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const total = 13;
+            const pct = Math.round((answeredCount / total) * 100);
+            document.getElementById('progressText').textContent = `Đã làm: ${answeredCount}/${total} câu (${pct}%)`;
+            document.getElementById('progressBar').style.width = `${pct}%`;
+        }
+
+        // Evidence Locator Button Action
+        function scrollToEvidence(elementId) {
+            const target = document.getElementById(elementId);
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                target.classList.add('evidence-target');
+                setTimeout(() => {
+                    target.classList.remove('evidence-target');
+                }, 3500);
+            }
+        }
+
+        // Highlight Mode Text Selection Logic
+        document.addEventListener('mouseup', function() {
+            const selection = window.getSelection();
+            if (!selection.rangeCount || selection.isCollapsed) return;
+
+            const text = selection.toString().trim();
+            if (text.length > 1) {
+                const range = selection.getRangeAt(0);
+                
+                // Avoid breaking input fields
+                if (range.commonAncestorContainer.nodeType === 3) {
+                    const span = document.createElement('span');
+                    span.className = 'user-highlight';
+                    try {
+                        range.surroundContents(span);
+                    } catch(e) {
+                        console.log("Complex highlight skipped");
+                    }
+                }
+            }
+        });
+
+        // --- 4. SUBMIT & SCORING LOGIC ---
+
+        function submitExam() {
+            if (isSubmitted) {
+                document.getElementById('resultModal').classList.remove('hidden');
+                return;
+            }
+
+            // Stop Timer
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+
+            isSubmitted = true;
+            let correctCount = 0;
+
+            // Evaluate All 13 Questions
+            for (let i = 14; i <= 26; i++) {
+                const qId = `q${i}`;
+                const qInfo = answerKey[qId];
+                const userVal = userAnswers[qId] || "";
+                let isCorrect = false;
+
+                // Checking Answer Logic
+                if (Array.isArray(qInfo.correct)) {
+                    // Fill in the blanks (case-insensitive check)
+                    const cleanUser = userVal.toLowerCase().trim();
+                    isCorrect = qInfo.correct.some(ans => ans.toLowerCase() === cleanUser);
+                } else {
+                    // Dropdown or MCQ
+                    isCorrect = (userVal.toUpperCase() === qInfo.correct.toUpperCase());
+                }
+
+                if (isCorrect) correctCount++;
+
+                // Visual Feedback on UI
+                showDetailedFeedback(qId, isCorrect, userVal, qInfo);
+            }
+
+            // Play Overall Audio Feedback
+            if (correctCount >= 8) {
+                playSound('correct');
+                confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+            } else {
+                playSound('wrong');
+            }
+
+            // Calculate Band Score & Render Modal
+            renderScoreModal(correctCount);
+        }
+
+        function showDetailedFeedback(qId, isCorrect, userVal, qInfo) {
+            const card = document.getElementById(`card-${qId}`);
+            const explBox = document.getElementById(`expl-${qId}`);
+            
+            if (card) {
+                if (isCorrect) {
+                    card.classList.add('bg-emerald-50/80', 'border-emerald-300');
+                } else {
+                    card.classList.add('bg-red-50/80', 'border-red-300');
+                }
+            }
+
+            // Highlighting MCQ Choices if MCQ
+            if (['q18', 'q19', 'q20'].includes(qId)) {
+                const buttons = document.querySelectorAll(`.mcq-btn-${qId}`);
+                buttons.forEach(btn => {
+                    const optLetter = btn.getAttribute('data-option');
+                    if (optLetter === qInfo.correct) {
+                        btn.className = `mcq-btn-${qId} w-full text-left p-3 rounded-xl border-2 border-emerald-600 bg-emerald-100/80 font-bold text-sm flex items-center justify-between`;
+                        btn.querySelector('.status-icon').className = 'fa-solid fa-circle-check text-emerald-600 status-icon';
+                    } else if (optLetter === userVal && !isCorrect) {
+                        btn.className = `mcq-btn-${qId} w-full text-left p-3 rounded-xl border-2 border-red-500 bg-red-100/80 font-bold text-sm flex items-center justify-between`;
+                        btn.querySelector('.status-icon').className = 'fa-solid fa-circle-xmark text-red-500 status-icon';
+                    }
+                });
+            }
+
+            // Render 4-Step Detailed Explanation
+            if (explBox) {
+                explBox.classList.remove('hidden');
+                const displayCorrect = Array.isArray(qInfo.correct) ? qInfo.correct.join(' / ') : qInfo.correct;
+                
+                explBox.innerHTML = `
+                    <div class="p-3 bg-white rounded-lg border border-slate-200 shadow-sm space-y-2 text-xs">
+                        <div class="flex items-center justify-between">
+                            <span class="font-extrabold ${isCorrect ? 'text-emerald-700' : 'text-red-600'} flex items-center gap-1">
+                                <i class="fa-solid ${isCorrect ? 'fa-check-circle' : 'fa-times-circle'}"></i> 
+                                ${isCorrect ? 'ĐÚNG' : 'SAI'} (Đã chọn: ${userVal || 'Chưa làm'})
+                            </span>
+                            <span class="font-black text-slate-900 bg-amber-100 px-2 py-0.5 rounded border border-amber-300">
+                                1. ĐÁP ÁN ĐÚNG: ${displayCorrect}
+                            </span>
+                        </div>
+
+                        <div>
+                            <strong class="text-slate-800 block mb-0.5">2. ĐOẠN CHỨA ĐÁP ÁN:</strong>
+                            <p class="italic text-slate-600 bg-slate-50 p-1.5 rounded border">"${qInfo.quote}"</p>
+                        </div>
+
+                        <div>
+                            <strong class="text-slate-800 block mb-0.5">3. DỊCH NGHĨA DẪN CHỨNG:</strong>
+                            <p class="text-slate-700 bg-amber-50/50 p-1.5 rounded border border-amber-100 font-medium">"${qInfo.transQuote}"</p>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-1 border-t border-slate-100">
+                            <div>
+                                <strong class="text-purple-900">4. CỤM TỪ ĐỒNG NGHĨA (SYNONYMS):</strong>
+                                <span class="text-purple-700 font-bold ml-1">${qInfo.synonyms}</span>
+                            </div>
+                            <button onclick="scrollToEvidence('${qInfo.passageEvId}')" class="btn-3d btn-primary px-2.5 py-1 rounded text-xs font-bold whitespace-nowrap self-start sm:self-auto flex items-center gap-1">
+                                <i class="fa-solid fa-arrow-pointer"></i> Định vị dẫn chứng
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // IELTS Reading Band Score Conversion Table (Scales 13 items proportionally to standard 40 items scale)
+        function calculateIELTSBand(rawScore) {
+            // Equivalent scaled score out of 40:
+            const scaled = Math.round((rawScore / 13) * 40);
+
+            if (scaled >= 39) return { band: "9.0", comment: "Xuất sắc tuyệt đối! Kỹ năng Reading của bạn đã đạt trình độ bản ngữ chuẩn xác 100%!" };
+            if (scaled >= 37) return { band: "8.5", comment: "Rất xuất sắc! Kỹ năng đọc hiểu & phân tích thông tin của bạn cực kỳ đẳng cấp!" };
+            if (scaled >= 35) return { band: "8.0", comment: "Tuyệt vời! Bạn nắm vững từ vựng học thuật và chiến thuật xử lý IELTS Reading!" };
+            if (scaled >= 33) return { band: "7.5", comment: "Làm rất tốt! Bạn đã đạt Band điểm mơ ước của rất nhiều thí sinh IELTS!" };
+            if (scaled >= 30) return { band: "7.0", comment: "Khá tốt! Bạn có nền tảng đọc hiểu vững vàng, tiếp tục luyện tập để bứt phá 8.0+ nhé!" };
+            if (scaled >= 27) return { band: "6.5", comment: "Đạt chuẩn đầu ra phổ biến! Hãy chú ý phân tích kỹ các bẫy Synonyms để tăng thêm điểm." };
+            if (scaled >= 23) return { band: "6.0", comment: "Hoàn thành khá tốt! Cần trau dồi thêm Vocabulary B2-C2 trong bảng Glossary bên dưới." };
+            if (scaled >= 20) return { band: "5.5", comment: "Cố gắng lên nhé! Hãy dành thời gian xem kỹ phần 4 bước giải thích chi tiết." };
+            if (scaled >= 16) return { band: "5.0", comment: "Hãy kiên trì học thêm từ vựng theo chủ đề và làm lại bài sau vài ngày nhé!" };
+            return { band: "4.5", comment: "Đừng nản lòng! Hãy liên hệ ngay Ms Lê Hằng để nhận lộ trình nâng Band hiệu quả nhất!" };
+        }
+
+        function renderScoreModal(correctCount) {
+            const modal = document.getElementById('resultModal');
+            const bandInfo = calculateIELTSBand(correctCount);
+
+            document.getElementById('rawScoreDisplay').textContent = `${correctCount}/13`;
+            document.getElementById('bandScoreDisplay').textContent = bandInfo.band;
+            
+            const commentBox = document.getElementById('evalCommentBox');
+            commentBox.className = `p-4 rounded-2xl text-sm font-semibold leading-relaxed ${
+                correctCount >= 8 ? 'bg-emerald-100 text-emerald-900 border border-emerald-300' : 'bg-amber-100 text-amber-900 border border-amber-300'
+            }`;
+            commentBox.textContent = bandInfo.comment;
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('resultModal').classList.add('hidden');
+        }
+
+        // On Page Load Initialization
+        window.onload = function() {
+            renderShuffledMCQs();
+            renderGlossary();
+            updateTimerDisplay();
+        };
+    </script>
+</body>
+</html>
